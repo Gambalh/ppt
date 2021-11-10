@@ -1,0 +1,179 @@
+Sub addEff()
+Dim mc As Integer
+upperLine.Visible = msoTrue
+mySld.timeLine.MainSequence.AddEffect upperLine, msoAnimEffectCustom, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    .FromX = 1
+    .FromY = 100
+    .ToX = 50
+    .ToY = 100
+End With
+mySld.timeLine.MainSequence(mc).Timing.Duration = 1
+'长线出现，改split为缩放，代码简单了不少
+'underLine.Visible = msoTrue
+mySld.timeLine.MainSequence.AddEffect shptmp, msoAnimEffectAppear, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.5
+'长线出现，暂停0.5秒
+
+
+mySld.timeLine.MainSequence.AddEffect underLine, msoAnimEffectAppear, , msoAnimTriggerAfterPrevious
+mySld.timeLine.MainSequence.AddEffect upperLine, msoAnimEffectCustom, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.8
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion, 1)
+    .MotionEffect.ToX = 0
+    .MotionEffect.ToY = -50 * (shp1.Height / scrHeight)
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    .FromX = 50
+    .FromY = 100
+    .ToX = 100
+    .ToY = 100
+End With
+'上线上移伸长
+mySld.timeLine.MainSequence.AddEffect underLine, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.8
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion, 1)
+    .MotionEffect.ToX = 0
+    .MotionEffect.ToY = 50 * (shp1.Height / scrHeight)
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    .FromX = 50
+    .FromY = 100
+    .ToX = 100
+    .ToY = 100
+End With
+'下长线下移并伸长
+'shp1.Visible = msoTrue
+mySld.timeLine.MainSequence.AddEffect shp1, msoAnimEffectSplit, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).EffectParameters.Direction = msoAnimDirectionHorizontalOut
+mySld.timeLine.MainSequence(mc).Timing.TriggerDelayTime = 0.4
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.7
+'大字竖直显现
+mySld.timeLine.MainSequence.AddEffect shptmp, msoAnimEffectAppear, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.5
+'以上实现了幕布拉开，大字显现。短线出现，暂停0.5s
+
+
+mySld.timeLine.MainSequence.AddEffect shp1, msoAnimEffectSplit, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).EffectParameters.Direction = msoAnimDirectionVerticalIn
+mySld.timeLine.MainSequence(mc).Exit = msoTrue
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.5
+'大字消失。如果出现变量未定义，不要运行addEff，只需再init一遍即可。这样动画才不会乱。
+mySld.timeLine.MainSequence.AddEffect upperLine, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    '.Timing.TriggerDelayTime = 0.2
+    '.Exit = msoTrue
+    '.Timing.Duration = 0.8
+    .FromX = 100
+    .FromY = 100
+    .ToX = 100 * shp2.width / shp1.width
+    .ToY = 100
+End With
+'上线缩短
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = -50 * (shp1.Height / scrHeight)
+   .ToX = 0
+    .ToY = -50 * (shp2.Height / scrHeight)
+End With
+mySld.timeLine.MainSequence(mc).Timing.Duration = 1
+'上线下移
+mySld.timeLine.MainSequence.AddEffect underLine, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    '.Timing.TriggerDelayTime = 0.2
+    '.Exit = msoTrue
+    '.Timing.Duration = 0.8
+    .FromX = 100
+    .FromY = 100
+    .ToX = 100 * shp2.width / shp1.width
+    .ToY = 100
+End With
+'下线缩短
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = 50 * (shp1.Height / scrHeight)
+   .ToX = 0
+    .ToY = 50 * (shp2.Height / scrHeight)
+End With
+mySld.timeLine.MainSequence(mc).Timing.Duration = 1
+'下线上移
+shp2.Visible = msoTrue
+mySld.timeLine.MainSequence.AddEffect shp2, msoAnimEffectSplit, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc)
+    .EffectParameters.Direction = msoAnimDirectionVerticalOut
+    .Timing.TriggerDelayTime = 0.5
+End With
+'小字劈开
+mySld.timeLine.MainSequence.AddEffect shptmp, msoAnimEffectAppear, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+mySld.timeLine.MainSequence(mc).Timing.Duration = 0.5
+'小字被“夹”出来，停留0.5s
+
+
+mySld.timeLine.MainSequence.AddEffect shp1, msoAnimEffectWipe, , msoAnimTriggerAfterPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc)
+    .EffectParameters.Direction = msoAnimDirectionUp
+    .Timing.Duration = 0.5
+    .Timing.TriggerDelayTime = 0.5
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = 2
+    .ToX = 0
+    .ToY = -50 * shp1.Height / scrHeight
+End With
+'大字上升
+mySld.timeLine.MainSequence.AddEffect shp2, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = 0
+    .ToX = 0
+    .ToY = 50 * shp2.Height / scrHeight
+End With
+mySld.timeLine.MainSequence(mc).Timing.Duration = 1
+'小字下沉
+mySld.timeLine.MainSequence.AddEffect underLine, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc)
+    .Timing.Duration = 1
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = 50 * (shp2.Height / scrHeight)  '-1,-2都是微调，不然下线离字太远
+   .ToX = 0
+    .ToY = 100 * (shp2.Height / scrHeight)
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    .FromY = 100
+    .ToY = 100
+    .FromX = 100 * shp2.width / shp1.width
+    .ToX = 100
+End With
+'下线同步下沉并伸长
+mySld.timeLine.MainSequence.AddEffect upperLine, msoAnimEffectCustom, , msoAnimTriggerWithPrevious
+mc = mySld.timeLine.MainSequence.Count
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeMotion).MotionEffect
+    .FromY = -50 * (shp2.Height / scrHeight)
+   .ToX = 0
+    .ToY = -100 * (shp1.Height / scrHeight)
+End With
+With mySld.timeLine.MainSequence(mc).Behaviors.Add(msoAnimTypeScale).ScaleEffect
+    .FromY = 100
+    .ToY = 100
+    .FromX = 100 * shp2.width / shp1.width
+    .ToX = 100
+End With
+With mySld.timeLine.MainSequence(mc)
+    .Timing.Duration = 1
+End With
+'上线上移并伸长
+'大功告成，一个比较炫酷的开场动画终于完成了，配上音乐更棒。继续稍加修改字的劈开方向，与线条互动得更好。
+
+End Sub
