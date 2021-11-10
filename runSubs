@@ -1,0 +1,10 @@
+Sub runSubs()
+Set MypptApp = CreateObject("powerpoint.application")
+
+'Set myPres = Presentations("心得.pptm")
+With MypptApp
+    .Run "drawLines"
+    .Run "init"
+    .Run "addEff"
+End With
+End Sub
