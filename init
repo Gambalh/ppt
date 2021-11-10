@@ -1,0 +1,34 @@
+Sub init()
+
+Set Myppt = Presentations("心得.pptm")
+Set mySld = Myppt.Slides(1)
+Set shp1 = mySld.Shapes("测量")
+Set shp2 = mySld.Shapes("电阻")
+Set upperLine = mySld.Shapes("upperLine")
+Set underLine = mySld.Shapes("underLine")
+Set shptmp = mySld.Shapes("tmp")
+scrWidth = Myppt.PageSetup.SlideWidth
+scrHeight = Myppt.PageSetup.SlideHeight
+clWidth = shp1.width
+clHeight = shp1.Height
+rWidth = shp2.width
+rHeight = shp2.Height
+'给各个图形命名，方便下面引用
+
+shp1.Left = scrWidth / 2 - shp1.width / 2
+shp1.Top = scrHeight / 2 - shp1.Height / 2
+'shp1.Visible = msoFalse
+shp2.Left = scrWidth / 2 - shp2.width / 2
+shp2.Top = scrHeight / 2 - shp2.Height / 2
+shp2.Visible = msoFalse
+upperLine.Left = shp1.Left
+upperLine.Top = scrHeight / 2
+upperLine.Visible = msoFalse
+underLine.Left = shp1.Left
+underLine.Top = scrHeight / 2
+'underLine.Visible = msoFalse
+'所有演员就位
+
+
+
+End Sub
