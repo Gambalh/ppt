@@ -1,0 +1,34 @@
+Sub drawLines()
+
+Set Myppt = Presentations("心得.pptm")
+Set mySld = Myppt.Slides(1)
+Set shp1 = mySld.Shapes("测量")
+Set shp2 = mySld.Shapes("电阻")
+scrWidth = Myppt.PageSetup.SlideWidth
+scrHeight = Myppt.PageSetup.SlideHeight
+clWidth = shp1.width
+clHeight = shp1.Height
+rWidth = shp2.width
+rHeight = shp2.Height
+Dim i As Integer
+For i = mySld.Shapes.Count To 1 Step -1
+    If mySld.Shapes(i).Name = "upperLine" Then
+    mySld.Shapes(i).Delete
+    ElseIf mySld.Shapes(i).Name = "underLine" Then
+    mySld.Shapes(i).Delete
+    Else
+    End If
+Next
+'删掉原来的线
+mySld.Shapes.AddShape(msoShapeRectangle, 0, 0, clWidth, 1).Name = "upperLine"
+mySld.Shapes("upperLine").Duplicate.Name = "underLine"
+'按字符大小把“线”画好，duplicate,paste提高一点效率，但语法不好掌握。
+'把画图另外单独出来，免得运行时重新画，图形就多出来了。
+
+
+For i = mySld.timeLine.MainSequence.Count To 1 Step -1
+    mySld.timeLine.MainSequence(i).Delete
+Next
+'删除所有动画，注意要从最后一个删起，因为每删一个.count都会变化
+
+End Sub
